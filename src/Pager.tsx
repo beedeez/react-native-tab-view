@@ -12,6 +12,7 @@ import {
   PagerCommonProps,
   EventEmitterProps,
 } from './types';
+import { isIE } from './utils/detect.js';
 
 type Binary = 0 | 1;
 
@@ -412,13 +413,13 @@ export default class Pager<T extends Route> extends React.Component<Props<T>> {
             not(clockRunning(this.clock)),
             I18nManager.isRTL
               ? set(
-                this.initialVelocityForSpring,
-                multiply(-1, this.velocityX, this.springVelocityScale)
-              )
+                  this.initialVelocityForSpring,
+                  multiply(-1, this.velocityX, this.springVelocityScale)
+                )
               : set(
-                this.initialVelocityForSpring,
-                multiply(this.velocityX, this.springVelocityScale)
-              )
+                  this.initialVelocityForSpring,
+                  multiply(this.velocityX, this.springVelocityScale)
+                )
           ),
           spring(
             this.clock,
@@ -669,12 +670,12 @@ export default class Pager<T extends Route> extends React.Component<Props<T>> {
           <Animated.View
             removeClippedSubviews={removeClippedSubviews}
             style={[
-              styles.container,
+              isIE ? styles.containerIE : styles.container,
               layout.width
                 ? {
-                  width: layout.width * navigationState.routes.length,
-                  transform: [{ translateX }] as any,
-                }
+                    width: layout.width * navigationState.routes.length,
+                    transform: [{ translateX }] as any,
+                  }
                 : null,
             ]}
           >
@@ -687,9 +688,13 @@ export default class Pager<T extends Route> extends React.Component<Props<T>> {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  containerIE: {
     flexGrow: 1,
     flexBasis: 'auto',
+    flexDirection: 'row',
+  },
+  container: {
+    flex: 1,
     flexDirection: 'row',
   },
 });
