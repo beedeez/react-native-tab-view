@@ -12,7 +12,7 @@ import {
   PagerCommonProps,
   EventEmitterProps,
 } from './types';
-import { isIE } from './utils/detect.js';
+import { isIE } from './isIE';
 
 type Binary = 0 | 1;
 
@@ -334,9 +334,7 @@ export default class Pager<T extends Route> extends React.Component<Props<T>> {
   private jumpTo = (key: string) => {
     const { navigationState, keyboardDismissMode, onIndexChange } = this.props;
 
-    const index = navigationState.routes.findIndex(
-      (route) => route.key === key
-    );
+    const index = navigationState.routes.findIndex(route => route.key === key);
 
     // A tab switch might occur when we're in the middle of a transition
     // In that case, the index might be same as before
@@ -382,7 +380,7 @@ export default class Pager<T extends Route> extends React.Component<Props<T>> {
       Math.min(value, this.props.navigationState.routes.length - 1)
     );
 
-    this.enterListeners.forEach((listener) => listener(index));
+    this.enterListeners.forEach(listener => listener(index));
   };
 
   private transitionTo = (index: Animated.Node<number>) => {
@@ -658,7 +656,7 @@ export default class Pager<T extends Route> extends React.Component<Props<T>> {
       addListener: this.addListener,
       removeListener: this.removeListener,
       jumpTo: this.jumpTo,
-      render: (children) => (
+      render: children => (
         <PanGestureHandler
           enabled={layout.width !== 0 && swipeEnabled}
           onGestureEvent={this.handleGestureEvent}
