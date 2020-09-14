@@ -692,7 +692,7 @@ export default class Pager<T extends Route> extends React.Component<Props<T>> {
 const styles = StyleSheet.create({
   containerIE: {
     flexGrow: 1,
-    flexBasis: 'auto',
+    flexBasis: 0,
     flexDirection: 'row',
   },
   container: {
